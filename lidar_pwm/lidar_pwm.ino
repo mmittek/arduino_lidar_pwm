@@ -13,6 +13,9 @@ uint32_t sample_id = 0;
 void setup() {
   // put your setup code here, to run once:
 Serial.begin(115200);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
 
   // Capture pin
   DDRD &= ~(0x02);  // PD2 as input
