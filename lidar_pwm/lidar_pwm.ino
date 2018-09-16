@@ -3,9 +3,12 @@ volatile uint16_t ovf_n = 0;
 volatile uint8_t led_state = 0;
 float dt = 0;
 int counter = 0;
+uint32_t sample_id = 0;
 
-#define CONV_SEC_TO_CM 1e5f
-#define CONV_SEC_TO_FT 3280.83989501f
+#define CONV_SEC_TO_CM  1e5f
+#define CONV_SEC_TO_M   1e3f
+
+#define CONV_SEC_TO_FT  3280.83989501f
 
 void setup() {
   // put your setup code here, to run once:
@@ -62,23 +65,24 @@ ISR (INT0_vect)
 }
 
 void loop() {
+  sample_id++;
   dt = timer_value*5e-7;
   
   
   // put your main code here, to run repeatedly:
-  Serial.print("TEST ");
-  Serial.print(timer_value);
-  Serial.print(",  ");
-  Serial.print(",  dt= ");
+  Serial.print(sample_id);
+  Serial.print(", ");
+  Serial.print(", dt: ");
   Serial.print(dt, 4);
   Serial.print(" sec ");
   Serial.print(", dist [cm]: ");
   Serial.print( dt*CONV_SEC_TO_CM, 2 );
+  Serial.print(", dist [m]: ");
+  Serial.print( dt*CONV_SEC_TO_M, 2 );
   Serial.print(", dist [ft]: ");
   Serial.print( dt*CONV_SEC_TO_FT, 2 );
 
-  Serial.print(", ");
-  Serial.println(counter);
+  Serial.println("");
   
 
 
